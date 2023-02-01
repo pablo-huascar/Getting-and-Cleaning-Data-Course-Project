@@ -1,5 +1,5 @@
 # Getting-and-Cleaning-Data-Course-Project
-## Load Packages and get the Data
+### Load Packages and get the Data
 
 library(readr)
 library(tidyverse)
@@ -13,7 +13,7 @@ unzip(zipfile = "./data/Dataset.zip",
       exdir = "./data", 
       overwrite = TRUE)
 
-## Load train datasets
+### Load train datasets
 
 features <- 
   read_table("data/UCI HAR Dataset/features.txt", col_names = c("cod",
@@ -30,14 +30,14 @@ subject_train <-
   read_table("data/UCI HAR Dataset/train/subject_train.txt",
              col_names = "subject")
 
-## merge train datasets
+### Merge train datasets
 
 train <- 
   bind_cols(list(subject_train,
                  y_train,
                  x_train))
 
-## Load test datasets 
+### Load test datasets 
 
 x_test <- 
   read_table("data/UCI HAR Dataset/test/X_test.txt", 
@@ -51,20 +51,20 @@ subject_test <-
   read_table("data/UCI HAR Dataset/test/subject_test.txt",
              col_names = "subject")
 
-## merge test datasets
+### Merge test datasets
 
 test <- 
   bind_cols(list(subject_test,
                  y_test,
                  x_test))
 
-# 1) Merges the training and the test sets to create one data set.
+## 1) Merges the training and the test sets to create one data set.
 
 data_set <- 
   bind_rows(train,
             test)
 
-# 2) Extracts only the measurements on the mean and standard deviation for each measurement.
+## 2) Extracts only the measurements on the mean and standard deviation for each measurement.
 
 data_set <- 
   data_set %>% 
@@ -73,7 +73,7 @@ data_set <-
          contains(c("mean",
                     "std")))
 
-# 3) Uses descriptive activity names to name the activities in the data set
+## 3) Uses descriptive activity names to name the activities in the data set
 
 data_set <- 
   data_set %>% 
@@ -85,7 +85,7 @@ data_set <-
                            "5" = "STANDING",
                            "6" = "LAYING"))
 
-# 4) Appropriately labels the data set with descriptive variable names. 
+## 4) Appropriately labels the data set with descriptive variable names. 
 
 data_set <- 
   data_set %>% 
@@ -102,7 +102,7 @@ data_set <-
   rename_with(~ gsub("angle", "Angle", .x)) %>%
   rename_with(~ gsub("gravity", "Gravity", .x))
 
-# 5) From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+## 5) From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 tidy_data <- 
   data_set %>% 
@@ -114,7 +114,7 @@ tidy_data <-
 write.table(x = tidy_data,
             file = "tidy_data.txt",
             row.names = F)
-## Creat a codebook
+### Creat a codebook
 dataMaid::makeDataReport(data = tidy_data, 
                          mode = c("summarize",  "visualize", "check"), 
                          smartNum = FALSE, 
