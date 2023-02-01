@@ -1,5 +1,6 @@
 library(readr)
 library(tidyverse)
+library(dataMaid)
 
 if(!file.exists("./data")){dir.create("./data")}
 
@@ -94,21 +95,7 @@ write.table(x = tidy_data,
             file = "tidy_data.txt",
             row.names = F)
 
-dataMaid::makeDataReport(data = tidy_data, 
-                         mode = c("summarize",  "visualize", "check"), 
-                         smartNum = FALSE, 
-                         file = "codebook_FinalData.Rmd",      
-                         replace = TRUE, 
-                         checks = list(character = "showAllFactorLevels",
-                                       factor = "showAllFactorLevels", 
-                                       labelled = "showAllFactorLevels",
-                                       haven_labelled = "showAllFactorLevels",
-                                       numeric = NULL,
-                                       integer = NULL,
-                                       logical = NULL, Date = NULL), 
-                         listChecks = FALSE,
-                         maxProbVals = Inf,
-                         codebook = TRUE, 
-                         reportTitle = "Codebook for FinalData")
+makeCodebook(tidy_data,reportTitle = "Code book for the tidy data",
+             file = "CodeBook.Rmd")
 
 #End
