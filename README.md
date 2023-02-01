@@ -114,7 +114,7 @@ tidy_data <-
 write.table(x = tidy_data,
             file = "tidy_data.txt",
             row.names = F)
-
+## Creat a codebook
 dataMaid::makeDataReport(data = tidy_data, 
                          mode = c("summarize",  "visualize", "check"), 
                          smartNum = FALSE, 
